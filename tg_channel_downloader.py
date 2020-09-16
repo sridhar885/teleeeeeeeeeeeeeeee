@@ -128,9 +128,9 @@ async def worker(name):
 async def handler(update):
     text = update.message.text.split(' ')
     if len(text) == 1:
-        await bot.send_message(admin_id, 'Parameter error, please input according to the reference format:\n\n '
+        await bot.send_message(admin_id, 'Wrong Dormat, please input according to the reference format:\n\n '
                                          '<i>/start https://t.me/fkdhlg 0 </i>\n\n'
-                                         'Tips:If no offset_id is entered, the download will start from the first one by default。', parse_mode='HTML')
+                                         'Tips: If no offset_id is entered, the download will start from the first one by default。', parse_mode='HTML')
         return
     elif len(text) == 2:
         chat_id = text[1]
