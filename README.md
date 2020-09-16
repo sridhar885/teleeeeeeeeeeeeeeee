@@ -30,7 +30,7 @@ Just an english Translation of [This repo](https://github.com/snow922841/telegra
 
  - Running the bot
  ```
- cd telegram_channel_downloader && python3 tg_channel_downloader.py
+ cd ~/telegram_channel_downloader && python3 tg_channel_downloader.py
  ```
  - Follow the prompts to enter the mobile phone number and check your telegram to obtain the verification code and enter
  
