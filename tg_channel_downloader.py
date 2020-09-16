@@ -13,10 +13,10 @@ from telethon.tl.types import MessageMediaWebPage
 api_id = 1234567   # your telegram api id
 api_hash = '1234567890abcdefgh'  # your telegram api hash
 bot_token = '1234567890:ABCDEFGHIJKLMNOPQRST'  # your bot_token
-admin_id = 1234567890  # your chat id
-save_path = '/exports'  # file save path
+admin_id = 1234567890  # your user id
+save_path = '/exports'  # Dont change this unless you know what you are doing
 upload_file_set = True  # set upload file to google drive
-drive_id = '5FyJClXmsqNw0-Rz19'  # google teamdrive id
+drive_id = '5FyJClXmsqNw0-Rz19'  # Folder ID of Teamdrive
 drive_name = 'GC'  # Dont change this unless you know what you are doing
 max_num = 10  # Simultaneous downloads
 # filter file name/File name filtering
