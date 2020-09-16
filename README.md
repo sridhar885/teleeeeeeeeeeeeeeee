@@ -30,7 +30,7 @@ Test environment Ubuntu 18.04.5 LTS & Python 3.6.9 7
 
  - Modify the `channel name`, `path to download`, `bot_token`, `admin_id`, `chat` and other required configurations in the script
  
- - Gclone option is added,see in the script file
+ - Fclone option is added,see in the script file
    
  - Running the bot  
  ```
