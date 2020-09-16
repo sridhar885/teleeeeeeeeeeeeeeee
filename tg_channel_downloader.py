@@ -18,13 +18,13 @@ save_path = '/usr/downloads'  # file save path
 upload_file_set = True  # set upload file to google drive
 drive_id = '5FyJClXmsqNw0-Rz19'  # google teamdrive id
 drive_name = 'gc'  # rclone drive name
-max_num = 10  # 同时下载数量
-# filter file name/文件名过滤
-filter_list = ['你好，欢迎加入 Quantumu',
+max_num = 10  # Simultaneous downloads
+# filter file name/File name filtering
+filter_list = ['Hello, welcome to join Quantumu',
                '\n']
-# filter chat id /过滤某些频道不下载
+# filter chat id /Filter some channels not to download
 blacklist = [1388464914,]
-donwload_all_chat = False # 监控所有你加入的频道，收到的新消息如果包含媒体都会下载，默认关闭
+donwload_all_chat = False # Monitor all the channels you have joined. New messages received will be downloaded if they contain media, which is closed by default
 #***********************************************************************************#
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -33,14 +33,14 @@ logger = logging.getLogger(__name__)
 queue = asyncio.Queue()
 
 
-# 文件夹/文件名称处理
+# Folder/file name processing
 def validateTitle(title):
     r_str = r"[\/\\\:\*\?\"\<\>\|\n]"  # '/ \ : * ? " < > |'
-    new_title = re.sub(r_str, "_", title)  # 替换为下划线
+    new_title = re.sub(r_str, "_", title)  # Replace with underscore
     return new_title
 
 
-# 获取相册标题
+# Get album title
 async def get_group_caption(message):
     group_caption = ""
     entity = await client.get_entity(message.to_id)
@@ -52,17 +52,17 @@ async def get_group_caption(message):
     return group_caption
 
 
-# 获取本地时间
+# Get local time
 def get_local_time():
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 
-# 判断相似率
+# Judgment similarity rate
 def get_equal_rate(str1, str2):
     return difflib.SequenceMatcher(None, str1, str2).quick_ratio()
 
 
-# 返回文件大小
+# Shows File Size
 def bytes_to_string(byte_count):
     suffix_index = 0
     while byte_count >= 1024:
@@ -82,14 +82,14 @@ async def worker(name):
         entity = queue_item[2]
         file_name = queue_item[3]
         dirname = validateTitle(f'{chat_title}({entity.id})')
-        datetime_dir_name = message.date.strftime("%Y年%m月")
+        datetime_dir_name = message.date.strftime("%YYear%mMonth")
         file_save_path = os.path.join(save_path, dirname, datetime_dir_name)
         if not os.path.exists(file_save_path):
             os.makedirs(file_save_path)
-        # 判断文件是否在本地存在
+        # Determine whether the file exists locally
         if file_name in os.listdir(file_save_path):
             os.remove(os.path.join(file_save_path, file_name))
-        print(f"{get_local_time()} 开始下载： {chat_title} - {file_name}")
+        print(f"{get_local_time()} Download Started： {chat_title} - {file_name}")
         try:
             loop = asyncio.get_event_loop()
             task = loop.create_task(client.download_media(
@@ -105,9 +105,9 @@ async def worker(name):
                                                             stdout=asyncio.subprocess.DEVNULL)
                 await proc.wait()
                 if proc.returncode == 0:
-                    print(f"{get_local_time()} - {file_name} 下载并上传完成")
+                    print(f"{get_local_time()} - {file_name} Download and upload completed")
         except (errors.FileReferenceExpiredError, asyncio.TimeoutError):
-            logging.warning(f'{get_local_time()} - {file_name} 出现异常，重新尝试下载！')
+            logging.warning(f'{get_local_time()} - {file_name} An exception occurred, try downloading again! ')
             async for new_message in client.iter_messages(entity=entity, offset_id=message.id - 1, reverse=True,
                                                           limit=1):
                 await queue.put((new_message, chat_title, entity, file_name))
@@ -116,7 +116,7 @@ async def worker(name):
             await bot.send_message(admin_id, f'Error!\n\n{e}\n\n{file_name}')
         finally:
             queue.task_done()
-            # 无论是否上传成功都删除文件。
+            # Delete files regardless of whether the upload is successful。
             if upload_file_set:
                 try:
                     os.remove(os.path.join(file_save_path, file_name))
@@ -128,9 +128,9 @@ async def worker(name):
 async def handler(update):
     text = update.message.text.split(' ')
     if len(text) == 1:
-        await bot.send_message(admin_id, '参数错误，请按照参考格式输入:\n\n '
+        await bot.send_message(admin_id, 'Parameter error, please input according to the reference format:\n\n '
                                          '<i>/start https://t.me/fkdhlg 0 </i>\n\n'
-                                         'Tips:如果不输入offset_id，默认从第一条开始下载。', parse_mode='HTML')
+                                         'Tips:If no offset_id is entered, the download will start from the first one by default。', parse_mode='HTML')
         return
     elif len(text) == 2:
         chat_id = text[1]
@@ -138,9 +138,9 @@ async def handler(update):
             entity = await client.get_entity(chat_id)
             chat_title = entity.title
             offset_id = 0
-            await update.reply(f'开始从{chat_title}的第一条消息下载。')
+            await update.reply(f'Start downloading from the first message of {chat_title}。')
         except:
-            await update.reply('chat输入错误，请输入频道或群组的链接')
+            await update.reply('Chat input error, please enter the link of the channel or group')
             return
     elif len(text) == 3:
         chat_id = text[1]
@@ -148,32 +148,32 @@ async def handler(update):
         try:
             entity = await client.get_entity(chat_id)
             chat_title = entity.title
-            await update.reply(f'开始从{chat_title}的第{offset_id}条消息下载。')
+            await update.reply(f'Start From {chat_title} First {offset_id} Message。')
         except:
-            await update.reply('chat输入错误，请输入频道或群组的链接')
+            await update.reply('Chat input error, please enter the link of the channel or group')
             return
     else:
-        await bot.send_message(admin_id, '参数错误，请按照参考格式输入:\n\n '
+        await bot.send_message(admin_id, 'Parameter error, please input according to the reference format:\n\n '
                                          '<i>/start https://t.me/fkdhlg 0 </i>\n\n'
-                                         'Tips:如果不输入offset_id，默认从第一条开始下载。', parse_mode='HTML')
+                                         'Tips:If you do not enter offset_id，Download from the first one by default。', parse_mode='HTML')
         return
     if chat_title:
-        print(f'{get_local_time()} - 开始下载：{chat_title}({entity.id}) - {offset_id}')
+        print(f'{get_local_time()} - Download Started：{chat_title}({entity.id}) - {offset_id}')
         last_msg_id = 0
         async for message in client.iter_messages(entity, offset_id=offset_id, reverse=True, limit=None):
             if message.media:
-                # 如果是一组媒体
+                # If it is a group of media
                 caption = await get_group_caption(message) if (
                     message.grouped_id and message.text == "") else message.text
-                # 过滤文件名称中的广告等词语
+                # Filter words such as ads in file names
                 if len(filter_list) and caption != "":
                     for filter_keyword in filter_list:
                         caption = caption.replace(filter_keyword, "")
-                # 如果文件文件名不是空字符串，则进行过滤和截取，避免文件名过长导致的错误
+                # If the file name is not an empty string, filter and intercept to avoid errors caused by too long file name
                 caption = "" if caption == "" else f'{validateTitle(caption)} - '[
                     :50]
                 file_name = ''
-                # 如果是文件
+                # If it is a file
                 if message.document:
                     if message.media.document.mime_type == "image/webp":
                         continue
@@ -187,7 +187,7 @@ async def handler(update):
                     if file_name == '':
                         file_name = f'{message.id} - {caption}.{message.document.mime_type.split("/")[-1]}'
                     else:
-                        # 如果文件名中已经包含了标题，则过滤标题
+                        # If the file name already contains the title, filter the title
                         if get_equal_rate(caption, file_name) > 0.6:
                             caption = ""
                         file_name = f'{message.id} - {caption}{file_name}'
@@ -197,7 +197,7 @@ async def handler(update):
                     continue
                 await queue.put((message, chat_title, entity, file_name))
                 last_msg_id = message.id
-        await bot.send_message(admin_id, f'{chat_title} 全部下载完成！最后消息ID为：{last_msg_id}')
+        await bot.send_message(admin_id, f'{chat_title} Download Complete！File ID：{last_msg_id}')
 
 
 @events.register(events.NewMessage())
@@ -209,16 +209,16 @@ async def all_chat_download(update):
         if entity.id in blacklist:
             return
         chat_title = entity.title
-        # 如果是一组媒体
+        # If it is a group of media
         caption = await get_group_caption(message) if (
             message.grouped_id and message.text == "") else message.text
         if caption != "":
             for fw in filter_list:
                 caption = caption.replace(fw, '')
-        # 如果文件文件名不是空字符串，则进行过滤和截取，避免文件名过长导致的错误
+        # If the file name is not an empty string, filter and intercept to avoid errors caused by too long file name
         caption = "" if caption == "" else f'{validateTitle(caption)} - '[:50]
         file_name = ''
-        # 如果是文件
+        # If it is a file
         if message.document:
             try:
                 if type(message.media) == MessageMediaWebPage:
@@ -235,7 +235,7 @@ async def all_chat_download(update):
                 if file_name == '':
                     file_name = f'{message.id} - {caption}.{message.document.mime_type.split("/")[-1]}'
                 else:
-                    # 如果文件名中已经包含了标题，则过滤标题
+                    # If the file name already contains the title, filter the title
                     if get_equal_rate(caption, file_name) > 0.6:
                         caption = ""
                     file_name = f'{message.id} - {caption}{file_name}'
@@ -245,7 +245,7 @@ async def all_chat_download(update):
             file_name = f'{message.id} - {caption}{message.photo.id}.jpg'
         else:
             return
-        # 过滤文件名称中的广告等词语
+        # Filter words such as ads in file names
         for filter_keyword in filter_list:
             file_name = file_name.replace(filter_keyword, "")
         print(chat_title, file_name)
