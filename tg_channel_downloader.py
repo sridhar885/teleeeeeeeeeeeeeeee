@@ -96,7 +96,7 @@ async def worker(name):
                 message, os.path.join(file_save_path, file_name)))
             await asyncio.wait_for(task, timeout=3600)
             if upload_file_set:
-                proc = await asyncio.create_subprocess_exec('fclone',
+                proc = await asyncio.create_subprocess_exec('gclone',
                                                             'move',
                                                             os.path.join(
                                                                 file_save_path, file_name),
