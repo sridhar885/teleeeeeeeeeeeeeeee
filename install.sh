@@ -26,7 +26,7 @@ bot() {
   cd ~/telegram_channel_downloader
   pip3 install -r requirements.txt
   python3 gc.py
-  mv rclone.conf /root/.config/rclone/
+  sudo mv rclone.conf /root/.config/rclone/
   nano tg_channel_downloader.py
   echo "${BLUE}Bot dependancies have been set${NORMAL}"
 }
