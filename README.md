@@ -22,7 +22,7 @@ Just an english Translation of [This repo](https://github.com/snow922841/telegra
 
 **2. Setting up the environments for the bot**
  ```
- git clone https://github.com/roshanconnor123/telegram_channel_downloader.git && sh install.sh
+ git clone https://github.com/roshanconnor123/telegram_channel_downloader.git && cd telegram_channel_downloader && sh install.sh
  ```
 - Modify the `api_id`, `api_hash`, `bot_token`, `admin_id`, `save_path`, `drive_id` to your own and press `ctrl + x` once its all done
 
