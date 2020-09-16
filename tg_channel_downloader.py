@@ -17,7 +17,7 @@ admin_id = 1234567890  # your chat id
 save_path = '/usr/downloads'  # file save path
 upload_file_set = True  # set upload file to google drive
 drive_id = '5FyJClXmsqNw0-Rz19'  # google teamdrive id
-drive_name = 'gc'  # rclone drive name
+drive_name = 'GC'  # Dont change this unless you know what you are doing
 max_num = 10  # Simultaneous downloads
 # filter file name/File name filtering
 filter_list = ['Hello, welcome to join Quantumu',
@@ -138,7 +138,7 @@ async def handler(update):
             entity = await client.get_entity(chat_id)
             chat_title = entity.title
             offset_id = 0
-            await update.reply(f'Start downloading from the first message of {chat_title}。')
+            await update.reply(f'Download Started from the first message of {chat_title}。')
         except:
             await update.reply('Chat input error, please enter the link of the channel or group')
             return
