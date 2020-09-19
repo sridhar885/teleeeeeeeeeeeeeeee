@@ -22,7 +22,7 @@ bot() {
   sudo apt update
   sudo apt -y upgrade
   sudo apt install -y python3-pip
-  wget -qO- https://git.io/gclone.sh
+  curl -s https://raw.githubusercontent.com/oneindex/script/master/gclone.sh | sudo bash
   sudo mkdir exports
   cd ~/telegram_channel_downloader
   pip3 install -r requirements.txt
