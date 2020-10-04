@@ -25,6 +25,7 @@ filter_list = ['Hello, welcome to join Quantumu',
 # filter chat id /Filter some channels not to download
 blacklist = [1388464914,]
 donwload_all_chat = False # Monitor all the channels you have joined. New messages received will be downloaded if they contain media, which is closed by default
+filter_file_name = ['jpg', ] # File Extensions Which should be excluded from downloading
 #***********************************************************************************#
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -81,6 +82,9 @@ async def worker(name):
         chat_title = queue_item[1]
         entity = queue_item[2]
         file_name = queue_item[3]
+        for filter_file in filter_file_name:
+            if file_name.endswith(filter_file):
+                return
         dirname = validateTitle(f'{chat_title}({entity.id})')
         datetime_dir_name = message.date.strftime("%YYear%mMonth")
         file_save_path = os.path.join(save_path, dirname, datetime_dir_name)
