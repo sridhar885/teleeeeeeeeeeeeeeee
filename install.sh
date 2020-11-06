@@ -22,7 +22,11 @@ bot() {
   sudo apt update
   sudo apt -y upgrade
   sudo apt install -y python3-pip
-  curl -s https://raw.githubusercontent.com/oneindex/script/master/gclone.sh | sudo bash
+  sudo apt install unzip wget
+  wget https://github.com/mawaya/rclone/releases/download/fclone-v0.4.1/fclone-v0.4.1-linux-amd64.zip
+  unzip fclone-v0.4.1-linux-amd64.zip
+  sudo mv fclone-v0.4.1-linux-amd64/fclone /usr/bin
+  sudo chmod 777 /usr/bin/fclone
   cd ~/telegram_channel_downloader
   pip3 install -r requirements.txt
   python3 gc.py
