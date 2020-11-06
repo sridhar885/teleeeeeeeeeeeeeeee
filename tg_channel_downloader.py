@@ -100,7 +100,7 @@ async def worker(name):
                 message, os.path.join(file_save_path, file_name)))
             await asyncio.wait_for(task, timeout=3600)
             if upload_file_set:
-                proc = await asyncio.create_subprocess_exec('gclone',
+                proc = await asyncio.create_subprocess_exec('fclone',
                                                             '--config=rclone.conf',
                                                             'move',
                                                             os.path.join(
@@ -180,6 +180,8 @@ async def handler(update):
                 file_name = ''
                 # If it is a file
                 if message.document:
+                    if type(message.media) == MessageMediaWebPage:
+                        continue
                     if message.media.document.mime_type == "image/webp":
                         continue
                     if message.media.document.mime_type == "application/x-tgsticker":
