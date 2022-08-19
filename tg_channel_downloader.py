@@ -10,13 +10,13 @@ from telethon import TelegramClient, events, errors
 from telethon.tl.types import MessageMediaWebPage
 
 #***********************************************************************************#
-api_id = 8941261   # your telegram api id
-api_hash = '89ebdbc6e7bf9195bde696b0e9b3c387'  # your telegram api hash
-bot_token = '5400483115:AAFOSDtdJQS1weHNAzWdLI8uTJV9Ch970Ko'  # your bot_token
-admin_id = 2025727672  # your user id
+api_id = 19220133   # your telegram api id
+api_hash = 'df11ebf82e2fb0d0465c2f903ec67e66'  # your telegram api hash
+bot_token = '5499480279:AAGappdjMocIxBkwmtTKsYSxRAlaCh30oJw'  # your bot_token
+admin_id = 5590144619  # your user id
 save_path = 'downloads'  # Dont change this unless you know what you are doing
 upload_file_set = True  # set upload file to google drive
-drive_id = '0APHBuePvKnRjUk9PVA'  # Folder ID of Teamdrive
+drive_id = '1xQkq7aInYSDzH3ejkgJ0MYHk-Je-bnP9'  # Folder ID of Teamdrive
 drive_name = 'ML'  # Dont change this unless you know what you are doing
 max_num = 10  # Simultaneous downloads
 # filter file name/File name filtering
@@ -25,7 +25,7 @@ filter_list = ['Hello, welcome to join Quantumu',
 # filter chat id /Filter some channels not to download
 blacklist = [1388464914,]
 donwload_all_chat = True # Monitor all the channels you have joined. New messages received will be downloaded if they contain media, which is closed by default
-filter_file_name = ['jpg', ] # File Extensions Which should be excluded from downloading
+filter_file_name = ['jpg','pdf','zip','tar','ts', ] # File Extensions Which should be excluded from downloading
 #***********************************************************************************#
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
